@@ -56,8 +56,8 @@ namespace MusicPlayer.Presentation
 
                 foreach (var song in toRemove)
                 {
-                    ViewModel.DeleteSong(song);
                     PlaybackControl.ViewModel.RemoveSongFromPlaylist(song);
+                    ViewModel.DeleteSong(song);
                 }
             }
         }

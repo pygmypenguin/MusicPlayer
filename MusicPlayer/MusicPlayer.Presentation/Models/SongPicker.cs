@@ -34,15 +34,13 @@ namespace MusicPlayer.Presentation.Models
         {
             get
             {
-                switch (ShuffleMode)
+                if (ShuffleMode == ShuffleMode.Shuffle)
                 {
-                    case Infrastructure.ShuffleMode.Shuffle:
-
-                        return _playedIndices.Count == _playlist.Count;
-
-                    case Infrastructure.ShuffleMode.Next:
-                    default:
-                        return _currentIndex == _playlist.Count - 1;
+                    return _playedIndices.Count == _playlist.Count;
+                }
+                else
+                {
+                    return _currentIndex == _playlist.Count - 1;
                 }
             }
         }
@@ -71,15 +69,16 @@ namespace MusicPlayer.Presentation.Models
         public void ResetPlaylistStatus(SongViewModel nowPlaying)
         {
             int newIndex = -1;
+            _playedIndices.Clear();
             if (nowPlaying != null)
             {
                 if (_playlist.Contains(nowPlaying))
                 {
                     newIndex = _playlist.IndexOf(nowPlaying);
+                    _playedIndices.Add(newIndex);
+                    _currentIndex = newIndex;
                 }
             }
-            _currentIndex = newIndex;
-            _playedIndices.Clear();
         }
 
         public void RemoveSongFromPlaylist(SongViewModel song)

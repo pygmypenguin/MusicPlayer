@@ -70,6 +70,16 @@ namespace MusicPlayer.Presentation.ViewModels
             }
         }
 
+        public bool IsShuffle
+        {
+            get { return _songPicker.ShuffleMode == ShuffleMode.Shuffle; }
+            set
+            {
+                _songPicker.ShuffleMode = value ? ShuffleMode.Shuffle : ShuffleMode.Next;
+                OnPropertyChanged("IsShuffle");
+            }
+        }
+
         private float _volume;
 
         public float Volume
@@ -194,7 +204,7 @@ namespace MusicPlayer.Presentation.ViewModels
 
         public void RemoveSongFromPlaylist(SongViewModel song)
         {
-            if (_currentSong.Path == song.Path)
+            if (_currentSong != null && _currentSong.Path == song.Path)
             {
                 EndCurrentSong();
             }
