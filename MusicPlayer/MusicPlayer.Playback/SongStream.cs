@@ -75,7 +75,7 @@ namespace MusicPlayer.Playback
 
         public void Seek(double positionSeconds)
         {
-            long bitPosition = 16 * _bitRate * (long)positionSeconds;
+            long bitPosition = 32 * _bitRate * (long)positionSeconds;
 
             if (bitPosition > _channel.Length)
             {
