@@ -65,7 +65,7 @@ namespace MusicPlayer.Playback
         public void Stop()
         {
             _player.Stop();
-            _reader.Position = 0;
+            _channel.Position = 0;
         }
 
         public void Pause()
@@ -75,13 +75,13 @@ namespace MusicPlayer.Playback
 
         public void Seek(double positionSeconds)
         {
-            long bitPosition = 16 * _bitRate * (long)positionSeconds;
+            long bitPosition = 32 * _bitRate * (long)positionSeconds;
 
             if (bitPosition > _channel.Length)
             {
                 return;
             }
-            _reader.CurrentTime = TimeSpan.FromSeconds(positionSeconds);
+            _channel.CurrentTime = TimeSpan.FromSeconds(positionSeconds);
         }
 
         private void Player_SongStopped(object sender, StoppedEventArgs e)
