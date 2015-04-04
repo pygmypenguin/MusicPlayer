@@ -7,7 +7,8 @@ namespace MusicPlayer.Playback
     public class SongStream : IDisposable
     {
         private IWavePlayer _player;
-        private AudioFileReader _reader;
+        private MediaFoundationReader _reader;
+        private WaveChannel32 _channel;
 
         private int _bitRate;
 
@@ -25,34 +26,35 @@ namespace MusicPlayer.Playback
             }
 
             Path = path;
-
-            _reader = new AudioFileReader(path);
             _bitRate = bitRate;
 
-            _player = new WaveOut(WaveCallbackInfo.FunctionCallback());
+            _reader = new MediaFoundationReader(path);
+            _channel = new WaveChannel32(_reader);
+
+            _player = new WaveOutEvent();
             _player.PlaybackStopped += Player_SongStopped;
-            _player.Init(_reader);
+            _player.Init(_channel);
         }
 
         public string Path { get; private set; }
 
         public float Volume
         {
-            get { return _reader.Volume; }
+            get { return _channel.Volume; }
             set
             {
-                _reader.Volume = value;
+                _channel.Volume = value;
             }
         }
 
         public double SongLength
         {
-            get { return _reader.TotalTime.TotalSeconds; }
+            get { return _channel.TotalTime.TotalSeconds; }
         }
 
         public double SongPosition
         {
-            get { return _reader.CurrentTime.TotalSeconds; }
+            get { return _channel.CurrentTime.TotalSeconds; }
         }
 
         public void Play()
@@ -75,7 +77,7 @@ namespace MusicPlayer.Playback
         {
             long bitPosition = 16 * _bitRate * (long)positionSeconds;
 
-            if (bitPosition > _reader.Length)
+            if (bitPosition > _channel.Length)
             {
                 return;
             }
@@ -113,6 +115,8 @@ namespace MusicPlayer.Playback
                 _player.Dispose();
 
                 _reader.Dispose();
+
+                _channel.Dispose();
 
                 _disposed = true;
             }
