@@ -30,6 +30,7 @@ namespace MusicPlayer.Playback
 
             _reader = new MediaFoundationReader(path);
             _channel = new WaveChannel32(_reader);
+            _channel.PadWithZeroes = false;
 
             _player = new WaveOutEvent();
             _player.PlaybackStopped += Player_SongStopped;
