@@ -4,8 +4,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="SkipStyle" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding PlayPauseState}" Value="Stop">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding PlayPauseState}" Value="Play">
+                    <Setter Property="IsEnabled" Value="True" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
@@ -17,9 +31,23 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Button x:Name="PlayPause"
+        <Button x:Name="SkipBack"
                 Grid.Row="0"
                 Grid.Column="0"
+                Width="25"
+                Height="25"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Command="{Binding SkipBackCommand}"
+                Content="&lt;&lt;"
+                Style="{StaticResource SkipStyle}" />
+
+        <Button x:Name="PlayPause"
+                Grid.Row="0"
+                Grid.Column="1"
                 Width="33"
                 Height="33"
                 Margin="3"
@@ -43,32 +71,22 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button x:Name="SkipButton"
+
+        <Button x:Name="SkipForward"
                 Grid.Row="0"
-                Grid.Column="1"
+                Grid.Column="2"
                 Width="25"
                 Height="25"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 VerticalContentAlignment="Center"
-                Command="{Binding SkipCommand}"
-                Content="&gt;&gt;">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding PlayPauseState}" Value="Stop">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding PlayPauseState}" Value="Play">
-                            <Setter Property="IsEnabled" Value="True" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+                Command="{Binding SkipForwardCommand}"
+                Content="&gt;&gt;"
+                Style="{StaticResource SkipStyle}" />
+
         <Slider x:Name="VolumeValue"
                 Grid.Row="0"
-                Grid.Column="2"
+                Grid.Column="3"
                 Width="150"
                 Margin="5"
                 VerticalAlignment="Center"
@@ -78,13 +96,13 @@
                 Value="{Binding Volume}" />
 
         <TextBlock Grid.Row="0"
-                   Grid.Column="3"
+                   Grid.Column="4"
                    Margin="5"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Text="{Binding NowPlaying}" />
         <ToggleButton Grid.Row="0"
-                      Grid.Column="4"
+                      Grid.Column="5"
                       Width="25"
                       Height="25"
                       Margin="5"
@@ -95,7 +113,7 @@
 
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
-                    Grid.ColumnSpan="5"
+                    Grid.ColumnSpan="6"
                     Orientation="Vertical">
             <Grid>
                 <Grid.ColumnDefinitions>

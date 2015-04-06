@@ -56,17 +56,31 @@ namespace MusicPlayer.Presentation.ViewModels
             }
         }
 
-        private Command _skipCommand;
+        private Command _skipForwardCommand;
 
-        public ICommand SkipCommand
+        public ICommand SkipForwardCommand
         {
             get
             {
-                if (_skipCommand == null)
+                if (_skipForwardCommand == null)
                 {
-                    _skipCommand = new Command(PlayNextSongInList);
+                    _skipForwardCommand = new Command(SkipForwardExecute);
                 }
-                return _skipCommand;
+                return _skipForwardCommand;
+            }
+        }
+
+        private Command _SkipBackCommand;
+
+        public ICommand SkipBackCommand
+        {
+            get
+            {
+                if (_SkipBackCommand == null)
+                {
+                    _SkipBackCommand = new Command(SkipBackExecute);
+                }
+                return _SkipBackCommand;
             }
         }
 
@@ -178,30 +192,6 @@ namespace MusicPlayer.Presentation.ViewModels
             PlaySong(song);
         }
 
-        public void PlayNextSongInList()
-        {
-            if (_songPicker != null)
-            {
-                var next = _songPicker.GetNextSong();
-                if (next != null)
-                {
-                    if (PlayPauseState == Infrastructure.PlayPauseState.Pause)
-                    {
-                        QueueSong(next);
-                    }
-                    else
-                    {
-                        PlaySong(next);
-                    }
-                }
-                else
-                {
-                    EndCurrentSong();
-                    PlayPauseState = Infrastructure.PlayPauseState.Stop;
-                }
-            }
-        }
-
         public void RemoveSongFromPlaylist(SongViewModel song)
         {
             if (_currentSong != null && _currentSong.Path == song.Path)
@@ -218,6 +208,54 @@ namespace MusicPlayer.Presentation.ViewModels
             {
                 var seconds = SongLength * songFraction;
                 _currentSong.Seek(seconds);
+            }
+        }
+
+        private void SkipForwardExecute()
+        {
+            if (_songPicker != null)
+            {
+                var next = _songPicker.GetNextSong();
+                TryPlaySong(next);
+            }
+        }
+
+        private void SkipBackExecute()
+        {
+            if (_currentSong != null)
+            {
+                if (SongPosition >= 3)
+                {
+                    Seek(0.0);
+                }
+                else
+                {
+                    if (_songPicker != null)
+                    {
+                        var prev = _songPicker.GetPreviousSong();
+                        TryPlaySong(prev);
+                    }
+                }
+            }
+        }
+
+        private void TryPlaySong(SongViewModel next)
+        {
+            if (next != null)
+            {
+                if (PlayPauseState == Infrastructure.PlayPauseState.Pause)
+                {
+                    QueueSong(next);
+                }
+                else
+                {
+                    PlaySong(next);
+                }
+            }
+            else
+            {
+                EndCurrentSong();
+                PlayPauseState = Infrastructure.PlayPauseState.Stop;
             }
         }
 
@@ -274,7 +312,7 @@ namespace MusicPlayer.Presentation.ViewModels
                 }
                 else
                 {
-                    PlayNextSongInList();
+                    SkipForwardExecute();
                 }
             }
         }

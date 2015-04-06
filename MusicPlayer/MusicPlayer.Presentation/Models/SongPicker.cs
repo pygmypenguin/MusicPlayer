@@ -7,7 +7,7 @@ namespace MusicPlayer.Presentation.Models
 {
     public class SongPicker
     {
-        private HashSet<int> _playedIndices;
+        private LinkedList<int> _playedIndices;
         private int _currentIndex;
         private Random _rand;
 
@@ -22,7 +22,7 @@ namespace MusicPlayer.Presentation.Models
 
             _playlist = playlist;
             _currentIndex = -1;
-            _playedIndices = new HashSet<int>();
+            _playedIndices = new LinkedList<int>();
             _rand = new Random();
 
             ShuffleMode = Infrastructure.ShuffleMode.Next;
@@ -36,7 +36,9 @@ namespace MusicPlayer.Presentation.Models
             {
                 if (ShuffleMode == ShuffleMode.Shuffle)
                 {
-                    return _playedIndices.Count == _playlist.Count;
+                    return _playedIndices.Count == _playlist.Count &&
+                        _playedIndices.Last != null &&
+                        _playedIndices.Last.Value == _currentIndex;
                 }
                 else
                 {
@@ -52,11 +54,20 @@ namespace MusicPlayer.Presentation.Models
                 return null;
             }
 
-            int index = GetNextIndex();
-            _playedIndices.Add(index);
-            _currentIndex = index;
+            _currentIndex = GetNextIndex();
+            return _playlist[_currentIndex];
+        }
 
-            return _playlist[index];
+        public SongViewModel GetPreviousSong()
+        {
+            var previousIndex = GetPreviousIndex();
+            if (previousIndex < 0)
+            {
+                return null;
+            }
+
+            _currentIndex = previousIndex;
+            return _playlist[_currentIndex];
         }
 
         public void LoadNewPlaylist(IList<SongViewModel> playList)
@@ -75,7 +86,7 @@ namespace MusicPlayer.Presentation.Models
                 if (_playlist.Contains(nowPlaying))
                 {
                     newIndex = _playlist.IndexOf(nowPlaying);
-                    _playedIndices.Add(newIndex);
+                    _playedIndices.AddFirst(newIndex);
                     _currentIndex = newIndex;
                 }
             }
@@ -92,6 +103,12 @@ namespace MusicPlayer.Presentation.Models
 
         private int GetNextIndex()
         {
+            var found = _playedIndices.Find(_currentIndex);
+            if (found != null && found.Next != null)
+            {
+                return found.Next.Value;
+            }
+
             if (ShuffleMode == Infrastructure.ShuffleMode.Shuffle)
             {
                 int index = _currentIndex;
@@ -106,12 +123,36 @@ namespace MusicPlayer.Presentation.Models
 
                 int pick = _rand.Next(0, validIndices.Count - 1);
 
-                return validIndices[pick];
+                var newIndex = validIndices[pick];
+                _playedIndices.AddLast(newIndex);
+                return newIndex;
             }
             else
             {
-                return ++_currentIndex;
+                var newIndex = _currentIndex + 1;
+                _playedIndices.AddLast(newIndex);
+                return newIndex;
             }
+        }
+
+        private int GetPreviousIndex()
+        {
+            var found = _playedIndices.Find(_currentIndex);
+            if (found != null && found.Previous != null)
+            {
+                return found.Previous.Value;
+            }
+            else if (ShuffleMode == Infrastructure.ShuffleMode.Next)
+            {
+                var newIndex = _currentIndex - 1;
+                if (newIndex > -1)
+                {
+                    _playedIndices.AddBefore(found, newIndex);
+                }
+                return newIndex;
+            }
+
+            return -1;
         }
     }
 }
