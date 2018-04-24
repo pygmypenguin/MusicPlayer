@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPlayer.Presentation", "MusicPlayer.Presentation\MusicPlayer.Presentation.csproj", "{0E689123-05FE-4B27-A940-5EC1418C51F1}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPlayer.Infrastructure", "MusicPlayer.Infrastructure\MusicPlayer.Infrastructure.csproj", "{10E36678-5136-41A1-A56A-F9AB803E1DBA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPlayer.Library", "MusicPlayer.Library\MusicPlayer.Library.csproj", "{814F3930-F326-40B9-8D45-FA36DFC1FAD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPlayer.Presentation.Web", "MusicPlayer.Presentation.Web\MusicPlayer.Presentation.Web.csproj", "{6A6CCF6E-95CE-47DD-BBA0-AF76113D9EEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{814F3930-F326-40B9-8D45-FA36DFC1FAD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{814F3930-F326-40B9-8D45-FA36DFC1FAD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{814F3930-F326-40B9-8D45-FA36DFC1FAD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A6CCF6E-95CE-47DD-BBA0-AF76113D9EEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A6CCF6E-95CE-47DD-BBA0-AF76113D9EEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A6CCF6E-95CE-47DD-BBA0-AF76113D9EEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A6CCF6E-95CE-47DD-BBA0-AF76113D9EEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D847692C-B938-4895-9487-76DE6DF1CD00}
 	EndGlobalSection
 EndGlobal

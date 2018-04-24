@@ -1,10 +1,11 @@
-﻿<Window x:Class="MusicPlayer.Presentation.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:MusicPlayer.Presentation.Controls"
-        Title="MainWindow"
-        Width="525"
-        Height="350">
+﻿<Window
+    x:Class="MusicPlayer.Presentation.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MusicPlayer.Presentation.Controls"
+    Title="MainWindow"
+    Width="525"
+    Height="350">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -14,26 +15,28 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <controls:PlaybackControl x:Name="PlaybackControl"
-                                  Grid.Row="0"
-                                  Grid.Column="0"
-                                  Margin="0"
-                                  HorizontalAlignment="Stretch"
-                                  DataContext="{Binding PlaybackViewModel}"
-                                  Padding="0" />
+        <controls:PlaybackControl
+            x:Name="PlaybackControl"
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0"
+            Padding="0"
+            HorizontalAlignment="Stretch"
+            DataContext="{Binding PlaybackViewModel}" />
 
-        <DataGrid x:Name="LibraryList"
-                  Grid.Row="1"
-                  Grid.Column="0"
-                  AllowDrop="True"
-                  AlternatingRowBackground="LightGray"
-                  AutoGenerateColumns="True"
-                  CanUserDeleteRows="True"
-                  CanUserSortColumns="True"
-                  Drop="LibraryList_Drop"
-                  ItemsSource="{Binding Library}"
-                  PreviewKeyDown="LibraryList_PreviewKeyDown"
-                  SelectionMode="Extended">
+        <DataGrid
+            x:Name="LibraryList"
+            Grid.Row="1"
+            Grid.Column="0"
+            AllowDrop="True"
+            AlternatingRowBackground="LightGray"
+            AutoGenerateColumns="True"
+            CanUserDeleteRows="True"
+            CanUserSortColumns="True"
+            Drop="LibraryList_Drop"
+            ItemsSource="{Binding Library}"
+            PreviewKeyDown="LibraryList_PreviewKeyDown"
+            SelectionMode="Extended">
 
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -44,10 +47,11 @@
                 <EventTrigger RoutedEvent="DragEnter">
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Duration="0:0:0"
-                                            Storyboard.TargetName="LibraryList"
-                                            Storyboard.TargetProperty="Background.Color"
-                                            To="LightBlue" />
+                            <ColorAnimation
+                                Storyboard.TargetName="LibraryList"
+                                Storyboard.TargetProperty="Background.Color"
+                                To="LightBlue"
+                                Duration="0:0:0" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -55,10 +59,11 @@
                 <EventTrigger RoutedEvent="DragLeave">
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Duration="0:0:0"
-                                            Storyboard.TargetName="LibraryList"
-                                            Storyboard.TargetProperty="Background.Color"
-                                            To="Transparent" />
+                            <ColorAnimation
+                                Storyboard.TargetName="LibraryList"
+                                Storyboard.TargetProperty="Background.Color"
+                                To="Transparent"
+                                Duration="0:0:0" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -66,10 +71,11 @@
                 <EventTrigger RoutedEvent="Drop">
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Duration="0:0:0"
-                                            Storyboard.TargetName="LibraryList"
-                                            Storyboard.TargetProperty="Background.Color"
-                                            To="Transparent" />
+                            <ColorAnimation
+                                Storyboard.TargetName="LibraryList"
+                                Storyboard.TargetProperty="Background.Color"
+                                To="Transparent"
+                                Duration="0:0:0" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>

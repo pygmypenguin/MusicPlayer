@@ -23,6 +23,7 @@
 *.xap
 ipch/
 obj/
+.vs/
 [Bb]in
 Ankh.NoLoad
 _Pvt_Extensions
